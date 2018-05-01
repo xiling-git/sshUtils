@@ -5,8 +5,14 @@
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="project_main" target="1.8" />
-      <module name="project_test" target="1.8" />
+      <module name="basic_main" target="1.8" />
+      <module name="basic_test" target="1.8" />
+      <module name="server_main" target="1.8" />
+      <module name="server_test" target="1.8" />
+      <module name="ssh_main" target="1.8" />
+      <module name="ssh_test" target="1.8" />
+      <module name="sshUtils_main" target="1.8" />
+      <module name="sshUtils_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

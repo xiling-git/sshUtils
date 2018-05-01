@@ -30,14 +30,72 @@ public class ShellUtils {
         return this;
     }
 
-    public ChannelShell openChannel() {
+    public void openChannel() {
         try {
             session.connect(3000);
             channel = (ChannelShell) session.openChannel("shell");
         } catch (JSchException e) {
             e.printStackTrace();
         }
-        return channel;
+    }
+
+    public void init() {
+        try {
+            InputStream inputStream = channel.getInputStream();
+            while (true) {
+                //等待服务器响应，如果发现命令没有执行完成，则需要加大等待时间
+                Thread.sleep(1000L);
+
+                String result = outResult(inputStream);
+
+                //命令未执行完成，等待响应
+                if (result != null) {
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String execute(String commend) {
+        try {
+            InputStream inputStream = channel.getInputStream();
+            OutputStream outputStream = channel.getOutputStream();
+
+            //发送需要执行的SHELL命令，需要用\n结尾，表示回车
+            if (!commend.endsWith("\n")) {
+                commend += "\n";
+            }
+            outputStream.write(commend.getBytes());
+            outputStream.flush();
+
+            while (true) {
+                //等待服务器响应，如果发现命令没有执行完成，则需要加大等待时间
+                Thread.sleep(1000L);
+
+                String result = outResult(inputStream);
+
+                //命令未执行完成，等待响应
+                if (result != null) {
+                    log.info(result);
+                    return result;
+                }
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void close() {
+        channel.disconnect();
+        session.disconnect();
     }
 
     public void execute() {

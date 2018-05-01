@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+}
+
+group 'com.hxl'
+version '1.0-SNAPSHOT'
+
+subprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+
+    configurations {
+        provided
+    }
+
+    sourceSets {
+        main {
+            compileClasspath += configurations.provided
+            test.compileClasspath += configurations.provided
+            test.runtimeClasspath += configurations.provided
+        }
+    }
+
+    dependencies {
+        provided group: 'org.projectlombok', name: 'lombok', version: '1.16.20'
+    }
+
+}
+group 'com.hxl'
+version '1.0-SNAPSHOT'
+

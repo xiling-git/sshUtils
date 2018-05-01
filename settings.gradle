@@ -1,0 +1,5 @@
+rootProject.name = 'sshUtils'
+include 'server'
+include 'ssh'
+include 'basic'
+
